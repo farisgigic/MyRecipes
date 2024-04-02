@@ -1,0 +1,9 @@
+// <div class="single_recepie text-center">
+            //     <div class="recepie_thumb">
+            //         <img src="${instance.image}" style="width: 50%; height: 75%; max-height: 30%;">
+            //     </div>
+            //     <h3>${instance.name}</h3>
+            //     <span></span>
+            //     <p>Time Needs: ${instance.rating}</p>
+            //     <a href="#recipe1" class="line_btn">${instance.name}</a>
+            // </div>

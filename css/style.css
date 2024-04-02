@@ -946,7 +946,7 @@ h3 {
 /* line 16, ../../Arafath/CL/CL October/220 Tasty Recipes/HTML/scss/_header.scss */
 .header-area .main-header-area {
   padding: 25px 0px;
-  background: #fff;
+  /* background: #fff; */
   background: transparent;
 }
 
