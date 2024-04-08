@@ -1,87 +1,73 @@
-$(document).ready(function(){
-    
-    (function($) {
-        "use strict";
+$(document).ready(function() {
+    let contacts = [];
 
-    
-    jQuery.validator.addMethod('answercheck', function (value, element) {
-        return this.optional(element) || /^\bcat\b$/.test(value)
-    }, "type the correct answer -_-");
-
-    // validate contactForm form
-    $(function() {
-        $('#contactForm').validate({
-            rules: {
-                name: {
-                    required: true,
-                    minlength: 2
-                },
-                subject: {
-                    required: true,
-                    minlength: 4
-                },
-                number: {
-                    required: true,
-                    minlength: 5
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-                message: {
-                    required: true,
-                    minlength: 20
-                }
+    $("#contactForm").validate({
+        rules: {
+            "message": {
+                required: true
             },
-            messages: {
-                name: {
-                    required: "Come on, you have a name, don't you?",
-                    minlength: "your ID must consist of at least 2 numbers"
-                },
-                
-                subject: {
-                    required: "Come on, you have something to write, don't you?",
-                    minlength: "Your subject must consist of at least 4 characters"
-                },
-                number: {
-                    required: "Come on, you have a number, don't you?",
-                    minlength: "your Number must consist of at least 5 characters"
-                },
-                email: {
-                    required: "No email, no message !"
-                },
-                message: {
-                    required: "You have to write something to send this form.",
-                    minlength: "Thats all? really?"
-                },
-                
+            "name": {
+                required: true
             },
-            submitHandler: function(form) {
-                $(form).ajaxSubmit({
-                    type:"POST",
-                    data: $(form).serialize(),
-                    url:"contact_process.php",
-                    success: function() {
-                        $('#contactForm :input').attr('disabled', 'disabled');
-                        $('#contactForm').fadeTo( "slow", 1, function() {
-                            $(this).find(':input').attr('disabled', 'disabled');
-                            $(this).find('label').css('cursor','default');
-                            $('#success').fadeIn()
-                            $('.modal').modal('hide');
-		                	$('#success').modal('show');
-                        })
-                    },
-                    error: function() {
-                        $('#contactForm').fadeTo( "slow", 1, function() {
-                            $('#error').fadeIn()
-                            $('.modal').modal('hide');
-		                	$('#error').modal('show');
-                        })
-                    }
-                })
+            "email": {
+                required: true,
+                email: true
+            },
+            "subject": {
+                required: true
             }
-        })
-    })
-        
- })(jQuery)
-})
+        },
+        messages: {
+            "message": {
+                required: "If you want to contact us, please let us know what you are interested in"
+            },
+            "name": {
+                required: "Please enter your name !"
+            },
+            "email": {
+                required: "Please enter your email !"
+            },
+            "subject": {
+                required: "Tell us what type of subject you are asking for !"
+            }
+        },
+        submitHandler: function(form, event) {
+            event.preventDefault();
+            blockUi("body");
+            let contact = serializeForm(form);
+            console.log(JSON.stringify(contact));
+            contacts.push(contact);
+            console.log("CONTACTS ARE : ", contacts);
+            $("#contactForm")[0].reset();
+            unblockUi("body");
+
+        }
+
+    });
+
+    function blockUi(element) {
+        $(element).block({
+            message: '<div class="spinner-border text-primary" role="status"></div>',
+            css: {
+                backgroundColor: "transparent",
+                border: "0"
+            },
+            overlayCSS: {
+                backgroundColor: "#000000",
+                opacity: 0.25
+            }
+        });
+    }
+
+    function unblockUi(element) {
+        $(element).unblock({});
+    }
+
+    function serializeForm(form) {
+        let jsonResult = {};
+        $.each($(form).serializeArray(), function() {
+            jsonResult[this.name] = this.value;
+        });
+        return jsonResult;
+    }
+});
