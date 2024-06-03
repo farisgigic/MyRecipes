@@ -1,9 +1,12 @@
 var Utils = {
     init_spapp: function () {
-        var app = $.spapp({
-            templateDir: "./tpl",
+        let app = $.spapp({
+            templateDir: "./tpl/",
+            defaultView: "#landing",
         });
+
         app.run();
+
     },
     set_to_localstorage: function (key, value) {
         window.localStorage.setItem(key, JSON.stringify(value));
@@ -63,7 +66,7 @@ var Utils = {
                 url: url,
                 type: "GET",
                 headers: {
-                    "Authentication": Utils.get_from_localstorage("user").token
+                    "Authentication": Utils.get_from_localstorage("User").token
                 }
             },
             lengthMenu: [

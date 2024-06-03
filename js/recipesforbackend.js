@@ -1,33 +1,27 @@
 let dataFetched = [];
 
 $(document).ready(() => {
-    getRecipes("http://localhost/Web%20Programming/backend/get_recipes.php");
-    // getRecipes("json/recipes1.json");
+    getRecipes("recipes");
 });
 
 const storeId = (id) => {
     localStorage.setItem("recipe-id", id);
 };
 
-const getRecipes = (dataUrl) => {
-    $.get(dataUrl, (data) => {
-        // console.log(data); 
-
+const getRecipes = (url) => {
+    RestClient.get(url, (data) => {
         try {
-            const parsedData = JSON.parse(data);
-
-
-            if (Array.isArray(parsedData)) {
-
-                dataFetched = parsedData;
+            if (Array.isArray(data.data)) {
+                dataFetched = data.data;
                 renderItems(dataFetched);
             } else {
-
-                console.error("Parsed data is not an array:", parsedData);
+                console.error("Parsed data is not an array:", data);
             }
         } catch (error) {
-            console.error("Error parsing data:", error);
+            console.error("Error processing data:", error);
         }
+    }, (error) => {
+        console.error("Error fetching data:", error);
     });
 };
 
@@ -37,16 +31,15 @@ const renderItems = (itemsArray) => {
     itemsArray.forEach(instance => {
         const row = document.createElement("tr");
         row.innerHTML = `
-            
             <td>${instance.name}</td>
             <td>${instance.time_taken}</td>
             <td>${instance.category}</td>
             <td>${instance.user_id}</td>
             <td>
                 <div class="btn-group" role="group" aria-label="Actions"> 
-                    <button type="button" class="btn btn-danger">Delete</button> 
+                    <button type="button" class="btn btn-danger" onclick="RecipeService.delete_recipe(${instance.id})">Delete</button> 
                 </div>
-        </td>
+            </td>
         `;
         $("#tbl_recipes tbody").append(row);
     });

@@ -25,7 +25,7 @@ class RecipeDao extends BaseDao
         // $stmt->execute(['search' => $search]);
         // $rows  = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // return reset($rows);
-        
+
         return $this->query_unique($query, [
             "search" => $search
         ]);
@@ -52,10 +52,38 @@ class RecipeDao extends BaseDao
             'search' => $search
         ]);
 
+
     }
     public function delete_recipe($id)
     {
-        $query = "DELETE FROM recipes WHERE id = :id";
+        $query = "DELETE FROM recipes WHERE id =:id";
         $this->execute($query, ["id" => $id]);
     }
+    public function get_all_recipes()
+    {
+        $query = "SELECT * FROM recipes;";
+        return $this->query($query, []);
+    }
+
+    public function get_recipe_by_id($id)
+    {
+
+        $query = "SELECT * FROM recipes WHERE id =:id";
+        return $this->query_unique($query, [
+            "id" => $id
+        ]);
+    }
+
+    public function edit_recipe($id, $recipe)
+    {
+        $query = "UPDATE recipes SET name = :name, time_taken= :time_taken, category = :category WHERE id= :id";
+        $this->execute($query, [
+            "id" => $recipe["id"],
+            "name" => $recipe["name"],
+            "time_taken" => $recipe["time_taken"],
+            "category" => $recipe["category"],
+            "user_id" => $recipe["user_id"]
+        ]);
+    }
+
 }

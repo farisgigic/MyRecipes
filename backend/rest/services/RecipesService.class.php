@@ -28,11 +28,24 @@ class RecipesService
         ];
 
     }
-    public function delete_recipe($recipe_id)
+    public function delete_recipe($id)
     {
-        $this->$this->recipeDao->delete_recipe($recipe_id);
+        $this->recipeDao->delete_recipe($id);
     }
-    
+    public function get_all_recipes()
+    {
+        return $this->recipeDao->get_all_recipes();
+    }
 
+    public function get_recipe_by_id($id)
+    {
+        return $this->recipeDao->get_recipe_by_id($id);
+
+    }
+    public function edit_recipe($recipe)
+    {
+        $id = $recipe["id"];
+        $this->recipeDao->edit_recipe($id, $recipe);
+    }
 }
 ?>

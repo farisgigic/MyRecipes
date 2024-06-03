@@ -23,8 +23,27 @@
     <link rel="stylesheet" href="css/slicknav.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/spapp.css">
-
+    <link rel="stylesheet" href="css/toastr.min.css">
     <link rel="stylesheet" href="css/datatables.min.css">
+    <style>
+        .circle-button {
+            width: 90px;
+            height: 40px;
+            border-radius: 35%;
+            padding: 6px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            min-width: 100px;
+        }
+    </style>
     </head>
 
 <body>
@@ -66,6 +85,16 @@
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                            <div class="float-right">
+                                <div class="dropdown">
+                                    <button class="circle-button" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="Utils.logout();">
+                                        <i class="fa fa-user">          Logout</i>
+                                        
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 d-none d-lg-block">
                         
                         </div>
                         <div class="col-12">
@@ -91,7 +120,7 @@
         <section id="recipe2" data-load="recipe2.html"></section>
         <section id="recipe3" data-load="recipe3.html"></section>
         <section id="addRecipe" data-load="add_recipe.html"></section>
-        <section id ="seeRecipes" data-load="seeRecipes.html"></section>
+        
     </main>
    
 
@@ -220,11 +249,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- JS here -->
 
    
-    <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+    <!-- <script src="js/vendor/modernizr-3.5.0.min.js"></script> -->
     <script src="js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/plugins.js"></script>
+    <!-- <script src="js/popper.min.js"></script> -->
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <!-- <script src="js/plugins.js"></script> -->
     <script src="js/jquery.validate.js"></script>
     <script src="js/jquery.spapp.js"></script> 
     <script src="js/jquery.blockUi.js"></script>
@@ -232,23 +261,26 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="js/jquery.spapp.js"></script>
     <!-- <script src="services/recipesB.js"></script> -->
 
-    <!-- <script src="utils/utils.js"></script>
+
+    <script src="js/recipe_service.js"></script>
+    <script src="utils/utils.js"></script>
     <script src="utils/constants.js"></script>
-    <script src="utils/rest_client.js"></script> -->
+
+    <script src="js/toastr.min.js"></script>
+    <script src="js/datatables.min.js"></script>
+  
     
     <!-- <script src="js/recipesforbackend.js"></script> -->
     
-    <script src="js/toastr.min.js"></script>
-    <script src="js/datatables.min.js"></script>
+     
     <!-- <script src="js/dataTables.bootstrap5.js"></script> -->
     
-
     
 
     <!-- END of JS -->
 
 
-    <script>
+    <!-- <script>
         let app = $.spapp({
         templateDir: "./tpl/",
         defaultView: "#landing",
@@ -256,8 +288,18 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
         app.run();
     </script>
+     -->
 
-    
+
+     <script>
+        if(Utils.get_from_localstorage("User")){
+            Utils.init_spapp();
+        } else{
+            window.location = "login";
+
+        }
+        
+     </script>
 </body>
 
 </html>

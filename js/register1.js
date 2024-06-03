@@ -3,11 +3,11 @@ let regs = []; // gdje spasavamo sva logovanja
 
 $("#registerForm1").validate({
     rules: {
-        "name": {
+        "first_name": {
             required: true,
 
         },
-        "surname": {
+        "last_name": {
             required: true
         },
         "email": {
@@ -19,11 +19,11 @@ $("#registerForm1").validate({
         }
     },
     messages: {
-        "name": {
+        "first_name": {
             required: "Please enter your name !",
 
         },
-        "surname": {
+        "last_name": {
             required: "Please enter you surname !"
         },
         "email": {
@@ -39,7 +39,21 @@ $("#registerForm1").validate({
         let register = serializeForm(form);
         //console.log(JSON.stringify(register));
         regs.push(register);
-        console.log("REGISTERS = ", regs);
+
+
+        $.post("http://localhost/Web%20Programming/backend/users/add", register, function () {
+
+            $("#registerForm1")[0].reset();
+
+            toastr.success("You have registered to our site ! ");
+
+        }).fail(function (xhr, status, error) {
+            console.log(xhr.responseText);
+
+            toastr.error("Error ocured while adding recipe. ");
+            // unblockUi("body");
+        })
+        //console.log("REGISTERS = ", regs);
         $("#registerForm1")[0].reset();
         unblockUi("body");
 

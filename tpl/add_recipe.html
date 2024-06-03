@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Tasty Recipes</title>
-    <link rel ="icon" type ="imgage/x-icon" href="img/logo.png" >
+    <link rel ="icon" type ="imgage/x-icon" href="./../img/logo.png" >
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -61,7 +61,7 @@
               </div>
             </div>
             <div class="form-group mt-3">
-              <button type="submit" class="button button-contactForm btn_4 boxed-btn">Add a recipe</button>
+              <button type="submit" class="button button-contactForm btn_4 boxed-btn" >Add a recipe</button>
             </div>
           </form>
         </div>
@@ -116,13 +116,49 @@
   <script src="js/jquery.blockUI.js"></script>
 
 
-  <script src ="js/add_recipe_form.js"></script>
+
+  <!-- <script src ="js/add_recipe_form.js"></script>  this is an old form for adding into database without using RestClient, just $.post-->
   <!-- <script src="js/recipesfromJSON.js"></script> // if we want to display data from JSON file  -->
   <script src="js/recipesforbackend.js"></script>  <!-- if we want to display data from BACKEND -->
-  
-  <!-- <script>
-    RecipeService.reload_recipes_datatable();
-  </script> -->
+  <script src="utils/rest_client.js"></script>
+
+  <script>
+    // Form validation and submission handling
+    $("#addRecipeForm").validate({
+        rules: {
+            "name": { required: true },
+            "time_taken": { required: true },
+            "category": { required: true },
+            "user_id": { required: true }
+        },
+        messages: {
+            "name": { required: "Please enter name of the recipe!" },
+            "time_taken": { required: "Enter time taken for this recipe!" },
+            "category": { required: "Enter category for this recipe!" },
+            "user_id": { required: "Tell us your ID!" }
+        },
+        submitHandler: function (form, event) {
+            event.preventDefault();
+            let recipe = serializeForm(form);
+            console.log("sahdad");
+            RestClient.post("recipes/add", recipe, function (data) {
+                $("#addRecipeForm")[0].reset();
+                toastr.success("You have successfully added a recipe");
+            }, function (error) {
+                toastr.error("Error occurred while adding recipe.");
+            });
+        }
+    });
+
+    // Utility function to serialize form data
+    function serializeForm(form) {
+        let jsonResult = {};
+        $.each($(form).serializeArray(), function () {
+            jsonResult[this.name] = this.value;
+        });
+        return jsonResult;
+    }
+</script>
 
 </body>
 </html>

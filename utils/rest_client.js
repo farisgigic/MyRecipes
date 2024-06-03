@@ -1,13 +1,15 @@
 var RestClient = {
     get: function (url, callback, error_callback) {
         $.ajax({
-            url: Constants.API_BASE_URL + url,
+            url: "http://localhost/Web%20Programming/backend/" + url,
             type: "GET",
             beforeSend: function (xhr) {
-                if (Utils.get_from_localstorage("user")) {
+                console.log(Utils.get_from_localstorage("User").token);
+                if (Utils.get_from_localstorage("User")) {
                     xhr.setRequestHeader(
                         "Authentication",
-                        Utils.get_from_localstorage("user").token
+                        Utils.get_from_localstorage("User").token
+
                     );
                 }
             },
@@ -21,14 +23,14 @@ var RestClient = {
     },
     request: function (url, method, data, callback, error_callback) {
         $.ajax({
-            url: Constants.API_BASE_URL + url,
+            url: "http://localhost/Web%20Programming/backend/" + url,
             type: method,
             data: data,
             beforeSend: function (xhr) {
-                if (Utils.get_from_localstorage("user")) {
+                if (Utils.get_from_localstorage("User")) {
                     xhr.setRequestHeader(
                         "Authentication",
-                        Utils.get_from_localstorage("user").token
+                        Utils.get_from_localstorage("User").token
                     );
                 }
             },

@@ -33,24 +33,38 @@ $("#addRecipeForm").validate({
         }
     },
     submitHandler: function (form, event) {
+
+
         event.preventDefault();
+
         //blockUi("body");
         let recipe = serializeForm(form);
         //console.log(JSON.stringify(register));
         recs.push(recipe);
-        console.log("RECIPES = ", recs);
+        // console.log("RECIPES = ", recs);
+
+        // kada koristimo rute u ovaj link ubacujemo ime Service-a koji koristimo, u ovom slucaju koristimo RecipesService.class.php, tj njen objekat
+        // $.post("http://localhost/Web%20Programming/backend/recipes/add", recipe, function (data) {
+
+        //     $("#addRecipeForm")[0].reset();
+        //     toastr.success("You have successfully added a recipe !");
+
+        //     //unblockUi("body");
+
+        // }).fail(function (xhr, status, error) {
+        //     console.log(xhr.responseText);
+
+        //     toastr.error("Error ocured while adding recipe! ");
+        //     // unblockUi("body");
+        // })
+        // $("#addRecipeForm")[0].reset();
+
+        // RestClient.post("http://localhost/Web%20Programming/backend/recipes/add", recipe, function (data) {
+        //     $("#addRecipeForm")[0].reset();
+        //     toastr.success("You have successfully added a recipe");
+        // })
 
 
-        $.post("http://localhost/Web%20Programming/backend/add_recipe.php", recipe, function (data) {
-            $("#addRecipeForm")[0].reset();
-            //unblockUi("body");
-
-        }).fail(function (xhr, status, error) {
-            console.log(xhr.responseText);
-            alert("Error ocured while adding recipe. ");
-            // unblockUi("body");
-        })
-        $("#addRecipeForm")[0].reset();
         //unblockUi("body");
 
 
