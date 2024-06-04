@@ -37,12 +37,12 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <input class="form-control" name="name" id="name" type="name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name '" placeholder = 'Enter your name '>
+                  <input class="form-control" name="first_name" id="first_name" type="name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name '" placeholder = 'Enter your name '>
                 </div>
               </div>
               <div class="col-sm-12">
                 <div class="form-group">
-                  <input class="form-control" name="surname" id="surname" type="surname" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your surname'" placeholder = 'Enter your surname'>
+                  <input class="form-control" name="last_name" id="last_name" type="surname" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your surname'" placeholder = 'Enter your surname'>
                 </div>
               </div>
               <div class="col-sm-6">
@@ -91,8 +91,46 @@
 
   <script src="js/jquery.validate.min.js"></script>
   <script src = "js/jquery.blockUI.js"></script>
+  <script src = "utils/rest_client.js"></script>
   <!-- <script src="../js/jquery.validate.min.js"></script> -->
-  <script src = "js/register1.js"></script>
+  <!-- <script src = "js/register1.js"></script> -->
+
+  <script>
+    // Form validation and submission handling
+    $("#registerForm1").validate({
+        rules: {
+            "first_name": { required: true },
+            "last_name": { required: true },
+            "email": { required: true },
+            "password": { required: true }
+        },
+        messages: {
+            "first_name": { required: "Please enter your first name" },
+            "last_name": { required: "Please enter your last name" },
+            "email": { required: "Please enter your email" },
+            "password": { required: "Please enter your password" }
+        },
+        submitHandler: function (form, event) {
+            event.preventDefault();
+            let recipe = serializeForm(form);
+            RestClient.post("users/add", recipe, function (data) {
+                $("#registerForm1")[0].reset();
+                toastr.success("You have successfully registered");
+            }, function (error) {
+                toastr.error("Error occurred while registration.");
+            });
+        }
+    });
+
+    // Utility function to serialize form data
+    function serializeForm(form) {
+        let jsonResult = {};
+        $.each($(form).serializeArray(), function () {
+            jsonResult[this.name] = this.value;
+        });
+        return jsonResult;
+    }
+</script>
 </body>
 
 </html>

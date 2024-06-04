@@ -7,3 +7,8 @@
             //     <p>Time Needs: ${instance.rating}</p>
             //     <a href="#recipe1" class="line_btn">${instance.name}</a>
             // </div>
+
+
+Napomene za Swagger
+- mora se u .htaccess ubaciti    %{REQUEST_FILENAME} !-f
+                                RewriteCond %{REQUEST_FILENAME} !-d 
